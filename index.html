@@ -1,0 +1,41 @@
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+  <title></title>
+  <script src="angular.min.js"></script>
+  <script src="application.js"></script>
+  <link rel="stylesheet" type="text/css" href="application.css">
+  
+</head>
+<body>
+  
+<div ng-app="todo" ng-controller="page">
+<div ng-repeat = "tab in tabArr">
+  <a href="" ng-click = "ui.current(tabArr.indexOf(tab)+1);">{{tab}}</a>
+</div>
+
+    <hr/>
+    <div ng-controller="tab" ng-show="ui.isCurrent(getTab());">{{tab}}
+        <ul ng-repeat="item in data">
+            <li ng-class="{ 'done': item.complete }"
+                ng-show="item.list == tabArr[getTab()-1]">{{item.name}}
+              <input type="checkbox" ng-model="item.complete" ng-click="update(item)"> </input>
+            </li>
+        </ul>
+        
+        <form ng-submit="addItem(tabArr[getTab()-1])">
+                Add new item 
+                <input ng-model="newItem.name" name="name">
+                <input type="submit" value="Add">
+        </form>
+        <form ng-submit="addTab()">
+                Add new tab
+                <input ng-model="newTab.name" name="name">
+                <input type="submit" value="Add">
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
