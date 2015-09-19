@@ -26,24 +26,24 @@ function ($s, todoApi) {
 
     $s.data = todoApi.query();
 
-    $s.newItem = {};
-    $s.addItem = function (tabName){
+    $s.newItem = "";
+    $s.addItem = function (tabName) {
         $s.newItem.list = tabName;
         $s.newItem.complete = false;
         todoApi.create($s.newItem);
 
         $s.newItem = {};
     };
-    $s.markItem = function (item){
+    $s.markItem = function (item) {
         var index = $s.data.indexOf(item);
         todoApi.update(index, item);
     };
-    
-    $s.newTab = {};
-    $s.addTab = function (){
-        todoApi.create($s.newTab);
 
-        $s.newTab = {};
+    $s.newTab = "";
+    $s.addTab = function (index) {
+        $s.tabArr.push($s.newTab);
+
+        $s.newTab = "";
     };
 }])
 
