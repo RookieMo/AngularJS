@@ -3,7 +3,7 @@ angular.module('todo', [])
 
 function ($s) {
     var uiCurrent = 1;
-    $s.tabArr = ["shopping","business"];
+    $s.tabArr = [{name: "shopping"}, {name: "business"}];
     $s.ui = {
         current: function (newUICurrent) {
             if (typeof newUICurrent != 'undefined') {
@@ -26,25 +26,32 @@ function ($s, todoApi) {
 
     $s.data = todoApi.query();
 
-    $s.newItem = "";
+    $s.newItem = {};
     $s.addItem = function (tabName) {
         $s.newItem.list = tabName;
         $s.newItem.complete = false;
+        console.log($s.newItem);
         todoApi.create($s.newItem);
 
         $s.newItem = {};
     };
+
     $s.markItem = function (item) {
         var index = $s.data.indexOf(item);
         todoApi.update(index, item);
     };
 
-    $s.newTab = "";
-    $s.addTab = function (index) {
-        $s.tabArr.push($s.newTab);
-
-        $s.newTab = "";
+    $s.addTab = function (newTab) {
+        console.log(newTab);
+        $s.tabArr.push({name: newTab});
     };
+
+    this.choseTab = "";
+    $s.moveItem = function (item) {
+        item.list = this.choseTab;
+        var index = $s.data.indexOf(item);
+        todoApi.update(index, item);
+    }
 }])
 
     .factory('todoApi', [function () {

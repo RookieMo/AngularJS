@@ -12,27 +12,33 @@
   
 <div ng-app="todo" ng-controller="page">
 <div ng-repeat = "tab in tabArr">
-  <a href="" ng-click = "ui.current(tabArr.indexOf(tab)+1);">{{tab}}</a>
+  <a href="" ng-click = "ui.current(tabArr.indexOf(tab)+1);">{{tab.name}}</a>
 </div>
 
     <hr/>
-    <div ng-controller="tab" ng-show="ui.isCurrent(getTab());">{{tab}}
+    <div ng-controller="tab" ng-show="ui.isCurrent(getTab());">{{tab.name}}
         <ul ng-repeat="item in data">
             <li ng-class="{ 'done': item.complete }"
-                ng-show="item.list == tabArr[getTab()-1]">{{item.name}}
+                ng-show="item.list == tabArr[getTab()-1].name">{{item.name}}
               <input type="checkbox" ng-model="item.complete" ng-click="update(item)"> </input>
+              <form ng-submit="moveItem(item)">
+              <select ng-model="choseTab">
+                <option ng-repeat="tab in tabArr" value="{{tab.name}}">{{tab.name}}</option>
+                </select>
+                <input type="submit" value="Move">
+              </form>
             </li>
         </ul>
         
-        <form ng-submit="addItem(tabArr[getTab()-1])">
+        <form ng-submit="addItem(tabArr[getTab()-1].name)">
                 Add new item 
                 <input ng-model="newItem.name" name="name">
                 <input type="submit" value="Add">
         </form>
-        <form ng-submit="addTab()">
+        <form>
                 Add new tab
-                <input ng-model="newTab" name="name">
-                <input type="submit" value="Add">
+                <input ng-model="newTab" name="name"></input>
+                <button ng-click="addTab(newTab)">Add</button>
         </form>
     </div>
 </div>
